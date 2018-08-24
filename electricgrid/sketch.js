@@ -5,49 +5,57 @@ let walker;
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   background(40, 44, 52);
-  var gridsX = windowWidth / gridSize;
-  var gridsY = windowHeight / gridSize;
+  // var gridsX = windowWidth / gridSize;
+  // var gridsY = windowHeight / gridSize;
 
-  for (var i = 0; i < gridsX; i++) {
-    for (var j = 0; j < gridsY; j++) {
-      noFill();
-      stroke('rgba(255,255,255,0.05)');
-      rect(i * gridGap, j * gridGap, gridSize, gridSize);
-    }
-  }
+  // for (var i = 0; i < gridsX; i++) {
+  //   for (var j = 0; j < gridsY; j++) {
+  //     noFill();
+  //     stroke('rgba(255,255,255,0.05)');
+  //     rect(i * gridGap, j * gridGap, gridSize, gridSize);
+  //   }
+  // }
+  frameRate(1);
   walker = new Walker();
 }
 
 function draw() {
-  walker.step();
   walker.render();
+  walker.step();
+  // console.log('wow', { walker });
 }
 
 class Walker {
   constructor() {
-    this.x = width / gridSize / 2;
-    this.y = height / gridSize / 2;
+    this.x = 0;
+    this.y = height;
+    this.steps = (int(random(0, 15)) * 2) % 100;
+    this.stepsUp = this.steps / 2;
+    this.stepsRight = this.steps / 2;
+    this.xTarget = windowWidth;
+    this.yTarget = 0;
+    this.xAvgDistance = floor(this.xTarget / this.stepsRight);
+    this.yAvgDistance = floor(this.y / this.stepsUp);
+    console.log(this);
+    console.log({ width, height });
   }
 
   render() {
-    // stroke(255);
-    // point(this.x, this.y);
-    fill(255);
-    rect(this.x, this.y, 10, 10);
+    console.log('drawing...');
+    stroke(255);
+    // fill(255);
+    point(this.x, this.y);
   }
 
   step() {
-    let choice = floor(random(4));
-    let r = random(1);
-    // A 40% of moving to the right!
-    if (r < 0.4) {
-      this.x += 10;
-    } else if (r < 0.6) {
-      this.x -= 10;
-    } else if (r < 0.8) {
-      this.y += 10;
+    let choice = random(1);
+    // console.log({ choice });
+    if (choice < 0.5) {
+      // go right
+      this.x += this.xAvgDistance;
     } else {
-      this.y -= 10;
+      // go left
+      this.y += this.yAvgDistance;
     }
     this.x = constrain(this.x, 0, width - 1);
     this.y = constrain(this.y, 0, height - 1);
