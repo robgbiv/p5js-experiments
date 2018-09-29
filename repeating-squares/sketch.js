@@ -1,22 +1,40 @@
+const REPETITIONS = 4;
+let RECTSIZE;
+
 function setup() {
   const c = createCanvas(windowWidth, windowHeight);
   background(40, 44, 52);
 
   const center = { x: windowWidth / 2, y: windowHeight / 2 };
-  const rectSize = windowWidth / 4;
-  const repetitions = 4;
+  RECTSIZE = windowWidth / 4;
 
-  let centerX = center.x - (rectSize / 2);
-  let centerY = center.y - (rectSize / 2);
-  let thisRectSize = rectSize;
+  let startPosition = {
+    x: center.x - (RECTSIZE / 2),
+    y: center.y - (RECTSIZE / 2),
+  }
+
+  for (var i = 0; i < REPETITIONS; i++) {
+    oneSide(startPosition, RECTSIZE, i);
+  }
+}
+
+function oneSide(startPosition, firstRectSize, iteration) {
+  let centerX = startPosition.x;
+  let centerY = startPosition.y;
+  let thisRectSize = firstRectSize;
   let lineColour = 255;
-  for (let i = 0; i < repetitions; i++) {
-    // drawRect(center.x - (rectSize / 2), center.y - (rectSize / 2), rectSize, 255);
+
+  for (let i = 0; i < REPETITIONS; i++) {
     drawRect(centerX, centerY, thisRectSize, lineColour);
-    console.log({centerX});
     thisRectSize = thisRectSize / 2;
-    centerX -= thisRectSize;
-    centerY -= thisRectSize;
+    iteration % 2 === 0
+      ? centerX -= (thisRectSize / 2)
+      : centerX += (thisRectSize / 2);
+    // centerX -= (thisRectSize / 2);
+    iteration % 2 === 0
+      ? centerY += (thisRectSize / 2)
+      : centerY -= (thisRectSize / 2);
+    // lineColour = lineColour / (i + 1);
   }
 }
 
