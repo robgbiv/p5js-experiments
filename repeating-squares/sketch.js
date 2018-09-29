@@ -29,12 +29,10 @@ function oneSide(startPosition, firstRectSize, iteration) {
     thisRectSize = thisRectSize / 2;
     iteration % 2 === 0
       ? centerX -= (thisRectSize / 2)
-      : centerX += (thisRectSize / 2);
-    // centerX -= (thisRectSize / 2);
-    iteration % 2 === 0
-      ? centerY += (thisRectSize / 2)
-      : centerY -= (thisRectSize / 2);
-    // lineColour = lineColour / (i + 1);
+      : centerX += thisRectSize + (thisRectSize / 2);
+    iteration <= 1
+      ? centerY -= (thisRectSize / 2)
+      : centerY += thisRectSize + (thisRectSize / 2);
   }
 }
 
