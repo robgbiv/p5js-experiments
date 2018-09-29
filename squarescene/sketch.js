@@ -24,7 +24,7 @@ function setup() {
   // square = new Square(400, 400, 400);
   // square.display();
 
-  saveCanvas(c, 'weird-coloursquares', 'png');
+  // saveCanvas(c, 'weird-coloursquares', 'png');
 }
 
 function draw() {
