@@ -58,14 +58,13 @@ function oneRect(x, y, size, lineColour) {
     rotate(this.angle);
     rect(0, 0, this.size, this.size);
     pop();
-    let rotateAngle = 0.1;
+    let rotateAngle = 100;
     if (this.rotateRight) {
-      this.angle += rotateAngle;
+      this.angle += rotateAngle / this.size;
     } else {
-      this.angle -= rotateAngle;
+      this.angle -= rotateAngle / this.size;
     }
   }
-
 }
 
 function draw() {
