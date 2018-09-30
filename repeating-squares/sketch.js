@@ -46,7 +46,7 @@ function oneRect(x, y, size, lineColour) {
   this.size = size;
   this.lineColour = lineColour;
   this.angle = 0;
-  this.turnRight = Math.random() >= 0.5;
+  this.rotateRight = Math.random() >= 0.5;
 
 
   this.display = function() {
@@ -58,15 +58,18 @@ function oneRect(x, y, size, lineColour) {
     rotate(this.angle);
     rect(0, 0, this.size, this.size);
     pop();
-    if (this.turnRight) {
-      this.angle += 0.05;
+    let rotateAngle = 0.1;
+    if (this.rotateRight) {
+      this.angle += rotateAngle;
     } else {
-      this.angle -= 0.05;
+      this.angle -= rotateAngle;
     }
   }
+
 }
 
 function draw() {
+  background(40, 44, 52);
   for (let i = 0; i < allRects.length; i++) {
     allRects[i].display();
   }
