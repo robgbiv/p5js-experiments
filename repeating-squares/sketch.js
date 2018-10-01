@@ -1,7 +1,6 @@
 const REPETITIONS = 4;
 let RECTSIZE;
-let startPosition;
-let allRects = [];
+const allRects = [];
 
 function setup() {
   const c = createCanvas(windowWidth, windowHeight);
@@ -12,7 +11,7 @@ function setup() {
   const center = { x: windowWidth / 2, y: windowHeight / 2 };
   RECTSIZE = windowWidth / 4;
 
-  startPosition = {
+  const startPosition = {
     x: center.x,
     y: center.y,
   }
@@ -27,26 +26,27 @@ function oneSide(startPosition, firstRectSize, iteration) {
   let centerY = startPosition.y;
   let thisRectSize = firstRectSize;
   let lineColour = 255;
+  let rotateLeft = false;
 
   for (let i = 0; i < REPETITIONS; i++) {
-    allRects.push(new oneRect(centerX, centerY, thisRectSize, lineColour));
+    allRects.push(new oneRect(centerX, centerY, thisRectSize, lineColour, rotateLeft));
     thisRectSize = thisRectSize / 2;
     iteration % 2 === 0
-      ? centerX -= thisRectSize
-      : centerX += thisRectSize;
+      ? (centerX -= thisRectSize, rotateLeft = true)
+      : (centerX += thisRectSize, rotateLeft = false);
     iteration <= 1
       ? centerY -= thisRectSize
       : centerY += thisRectSize;
   }
 }
 
-function oneRect(x, y, size, lineColour) {
+function oneRect(x, y, size, lineColour, rotateLeft) {
   this.x = x;
   this.y = y;
   this.size = size;
   this.lineColour = lineColour;
   this.angle = 0;
-  this.rotateRight = Math.random() >= 0.5;
+  this.rotateLeft = rotateLeft;
 
 
   this.display = function() {
@@ -59,10 +59,10 @@ function oneRect(x, y, size, lineColour) {
     rect(0, 0, this.size, this.size);
     pop();
     let rotateAngle = 100;
-    if (this.rotateRight) {
-      this.angle += rotateAngle / this.size;
-    } else {
+    if (this.rotateLeft) {
       this.angle -= rotateAngle / this.size;
+    } else {
+      this.angle += rotateAngle / this.size;
     }
   }
 }
