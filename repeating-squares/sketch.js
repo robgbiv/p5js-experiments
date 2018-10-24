@@ -1,15 +1,27 @@
+var capturer = new CCapture({
+  format: 'gif',
+  name: 'repeatingsquares',
+  workersPath: './ccapture.js/src/',
+});
+var canvas;
+
 const REPETITIONS = 4;
 let RECTSIZE;
 const allRects = [];
+const loopFrame = 288;
 
 function setup() {
-  const c = createCanvas(windowWidth, windowHeight);
+  // const c = createCanvas(windowWidth, windowHeight);
+  const canvasSize = 512;
+  const c = createCanvas(canvasSize, canvasSize);
+  canvas = c.canvas;
+
   background(40, 44, 52);
   angleMode(DEGREES);
   rectMode(CENTER);
 
-  const center = { x: windowWidth / 2, y: windowHeight / 2 };
-  RECTSIZE = windowWidth / 4;
+  const center = { x: canvasSize / 2, y: canvasSize / 2 };
+  RECTSIZE = canvasSize / 4;
 
   const startPosition = {
     x: center.x,
@@ -19,6 +31,8 @@ function setup() {
   for (var i = 0; i < 4; i++) {
     oneSide(startPosition, RECTSIZE, i);
   }
+
+  capturer.start();
 }
 
 function oneSide(startPosition, firstRectSize, iteration) {
@@ -71,5 +85,11 @@ function draw() {
   background(40, 44, 52);
   for (let i = 0; i < allRects.length; i++) {
     allRects[i].display();
+  }
+  if (frameCount < loopFrame) {
+    capturer.capture(canvas);
+  } else if (frameCount === loopFrame) {
+    capturer.stop();
+    capturer.save();
   }
 }
