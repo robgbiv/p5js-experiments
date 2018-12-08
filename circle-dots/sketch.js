@@ -4,7 +4,7 @@ function setup() {
   angleMode(DEGREES);
   colorMode(HSB, 100);
   background(0);
-  frameRate(10);
+  frameRate(2);
 }
 
 function draw() {
@@ -22,14 +22,18 @@ function draw() {
 }
 
 function drawRing(size) {
-  this.colour = fill(random(100), random(100), random(100));
+  // this.colour = fill(random(100), random(100), random(100));
   const halfWidth = windowWidth / 2;
   const halfHeight = windowHeight / 2;
+  beginShape();
+  stroke(random(100), random(100), random(100));
   for (let a = 0; a < 360; a += 10) {
-    let x = size * sin(a) + halfWidth - random(70);
-    let y = size * cos(a) + halfHeight + random(70);
-    // fill(this.colour);
+    let x = size * sin(a) + halfWidth - random(2);
+    let y = size * cos(a) + halfHeight + random(2);
+    noFill();
     ellipse(x, y, 3);
+    vertex(x, y);
   }
+  endShape(CLOSE);
 
 }
