@@ -32,23 +32,40 @@ function setup() {
   canvas = c.canvas;
   background(0);
 
-  frameSize = windowHeight;
   tilesPerSide = 20;
+  // frameSize = parseInt(windowHeight);
+  frameSize = Math.round((windowHeight / tilesPerSide) * tilesPerSide);
   tileSize = frameSize / tilesPerSide;
-  totalTiles = tileSize * tileSize;
+  totalTiles = tilesPerSide * tilesPerSide;
 
-  let frameStartX = windowWidth / 2 - frameSize / 2;
+  // let frameStartX = windowWidth / 2 - frameSize / 2;
+  let windowWidthRounded = Math.round(
+    (windowWidth / 2 / tilesPerSide) * tilesPerSide
+  );
+  let frameStartX = windowWidthRounded - frameSize / 2;
   let frameStartY = 0;
 
   let tileStartX = frameStartX;
   let tileStartY = frameStartY;
+
+  console.log("!!!", {
+    frameSize,
+    tilesPerSide,
+    tileSize,
+    totalTiles,
+    windowWidthRounded,
+    frameStartX,
+    frameStartY,
+    tileStartX,
+    tileStartY
+  });
 
   for (let i = 0; i < tilesPerSide; i++) {
     for (let j = 0; j < tilesPerSide; j++) {
       // let tileColour = tileGradient[(i + j) % tileGradient.length];
       let tileColour =
         tileGradient[Math.floor(Math.random() * tileGradient.length)];
-      tile = new Tile(
+      let tile = new Tile(
         i * tileSize + frameStartX,
         j * tileSize + frameStartY,
         tileSize,
@@ -97,6 +114,11 @@ class Shape {
     noStroke();
     fill(this.colour);
     ellipseMode(CENTER);
+    let coinToss = Math.random();
+    if (coinToss <= 0.3) {
+      rotate(PI / 3.0);
+      ellipse(this.x, this.y, this.size, this.size - 20);
+    }
     ellipse(this.x, this.y, this.size);
   }
 }
