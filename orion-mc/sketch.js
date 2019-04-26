@@ -48,23 +48,23 @@ function setup() {
   let tileStartX = frameStartX;
   let tileStartY = frameStartY;
 
-  console.log("!!!", {
-    frameSize,
-    tilesPerSide,
-    tileSize,
-    totalTiles,
-    windowWidthRounded,
-    frameStartX,
-    frameStartY,
-    tileStartX,
-    tileStartY
-  });
+  // console.log("!!!", {
+  //   frameSize,
+  //   tilesPerSide,
+  //   tileSize,
+  //   totalTiles,
+  //   windowWidthRounded,
+  //   frameStartX,
+  //   frameStartY,
+  //   tileStartX,
+  //   tileStartY
+  // });
 
   for (let i = 0; i < tilesPerSide; i++) {
     for (let j = 0; j < tilesPerSide; j++) {
-      // let tileColour = tileGradient[(i + j) % tileGradient.length];
-      let tileColour =
-        tileGradient[Math.floor(Math.random() * tileGradient.length)];
+      let tileColour = tileGradient[(i + j) % tileGradient.length];
+      // let tileColour =
+      //   tileGradient[Math.floor(Math.random() * tileGradient.length)];
       let tile = new Tile(
         i * tileSize + frameStartX,
         j * tileSize + frameStartY,
@@ -93,7 +93,7 @@ class Tile {
     rect(this.x, this.y, this.size, this.size);
     let shapeX = this.x + this.size / 2;
     let shapeY = this.y + this.size / 2;
-    let shapeSize = this.size - Math.floor(Math.random() * 100 + 10);
+    let shapeSize = this.size - Math.floor(Math.random() * 40);
     let shapeColour =
       shapeColours[Math.floor(Math.random() * shapeColours.length)];
     let shape = new Shape(shapeX, shapeY, shapeSize, shapeColour);
@@ -114,12 +114,21 @@ class Shape {
     noStroke();
     fill(this.colour);
     ellipseMode(CENTER);
-    let coinToss = Math.random();
-    if (coinToss <= 0.3) {
+    let shouldRotate = Math.random() <= 0.3;
+    if (shouldRotate) {
+      push();
+      translate(this.x, this.y);
+      let randomRotation = Math.random() * 25;
       rotate(PI / 3.0);
-      ellipse(this.x, this.y, this.size, this.size - 20);
+      let wideOrTall = Math.random() <= 0.5;
+      let randomSize = Math.random() * 20;
+      wideOrTall
+        ? ellipse(0, 0, this.size - randomSize, this.size)
+        : ellipse(0, 0, this.size, this.size - randomSize);
+      pop();
+    } else {
+      ellipse(this.x, this.y, this.size);
     }
-    ellipse(this.x, this.y, this.size);
   }
 }
 
